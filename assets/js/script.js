@@ -1,44 +1,40 @@
-const relogio = document.querySelector(".relogio");
+const relogio = document.querySelector(".relogio")
 
-function timer (){
-const getTimeFromSeconds = (segundos) =>{
-    const data = new Date(segundos * 1000);
-    return data.toLocaleTimeString('pt-br', {hour12: false, timeZone: 'GMT'});
+
+const timerToSeconds = (seconds) => {
+    const date = new Date(seconds * 1000);
+    return date.toLocaleTimeString('pt-br', {timeZone: "GMT"})
 }
 
-let segundos = 0;
+let seconds = 0;
 let timer;
-const startTimer = () =>{
-    timer = setInterval(function () {
-        segundos ++;
-        relogio.innerHTML = getTimeFromSeconds(segundos);
+const iniciaRelogio = () =>{
+    timer = setInterval(()=>{
+        seconds++
+        relogio.innerHTML = timerToSeconds(seconds);
     }, 1000)
 }
 
-document.addEventListener("click", (e) => {
-    const el = e.target;
-    
+document.addEventListener("click", (e)=>{
+    el=e.target;
+
     if(el.classList.contains("iniciar")){
-        relogio.classList.remove("pausado");
         clearInterval(timer);
-        startTimer();
+        relogio.classList.remove("pausado");
+        iniciaRelogio(timer);
     }
-    
+
     if(el.classList.contains("pausar")){
-        if(segundos !== 0){
-            relogio.classList.add("pausado");
+        clearInterval(timer);
+        if(seconds !== 0){
+            relogio.classList.add("pausado")
         }
-    clearInterval(timer);
     }
 
     if(el.classList.contains("zerar")){
         clearInterval(timer);
-        relogio.classList.remove("pausado");
-        relogio.innerHTML = "00:00:00";
-        segundos = 0;
+        relogio.classList.remove("pausado")
+        seconds = 0
+        relogio.innerHTML = "00:00:00"; 
     }
 })
-}
-timer();
-
-// Anotar no seu caderno o método "contains", que significa contem. Ex:if(el.classList.contains("pausar")) --> se o elemento conter a classe pausar
